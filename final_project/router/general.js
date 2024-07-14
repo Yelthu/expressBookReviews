@@ -136,6 +136,35 @@ public_users.get('/books/author/:author',function (req, res) {
   });
 
   });
+  
+  // TASK 13 - Get book details based on title
+public_users.get('/books/title/:title',function (req, res) {
+
+    const get_books_author = new Promise((resolve, reject) => {
+
+    let booksbytitle = [];
+    let isbns = Object.keys(books);
+    isbns.forEach((isbn) => {
+      if(books[isbn]["title"] === req.params.title) {
+        booksbytitle.push({"isbn":isbn,
+                            "title":books[isbn]["title"],
+                            "reviews":books[isbn]["reviews"]});
+      resolve(res.send(JSON.stringify({booksbytitle}, null, 4)));
+      }
+
+
+    });
+    reject(res.send("The mentioned author does not exist "))
+        
+    });
+
+    get_books_author.then(function(){
+            console.log("Promise is resolved");
+   }).catch(function () { 
+                console.log('The mentioned author does not exist');
+  });
+
+  });
 
 const doesExist = (username) => {
     // Filter the users array for any user with the same username
